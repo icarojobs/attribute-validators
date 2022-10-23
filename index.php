@@ -4,55 +4,64 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-abstract class Validator {
+abstract class Validator
+{
 
     protected string $errorMessage = 'Error';
 
-    public abstract function validate(mixed $value) : bool;
-    public function getErrorMessage() : string {
+    abstract public function validate(mixed $value): bool;
+    public function getErrorMessage(): string
+    {
         return $this->errorMessage;
     }
 }
 
 #[Attribute]
-class MaxLength extends Validator {
+class MaxLength extends Validator
+{
 
     public function __construct(
-       public int $maxLength,
-       public string $errorMessage = 'Valor é maior que o tamanho max permitido'
-    ) {}
+        public int $maxLength,
+        public string $errorMessage = 'Valor é maior que o tamanho max permitido'
+    ) {
+    }
 
-    public function validate(mixed $value) : bool {
+    public function validate(mixed $value): bool
+    {
         return strlen($value) < $this->maxLength;
     }
-
 }
 
 #[Attribute]
-class Email extends Validator {
+class Email extends Validator
+{
 
     public function __construct(
-       public string $errorMessage = 'Email inválido !'
-    ) {}
-
-    public function validate(mixed $value) : bool {
-        return filter_var($value, FILTER_VALIDATE_EMAIL);
+        public string $errorMessage = 'Email inválido !'
+    ) {
     }
 
+    public function validate(mixed $value): bool
+    {
+        return filter_var($value, FILTER_VALIDATE_EMAIL);
+    }
 }
 
 #[Attribute]
-class Cpf extends Validator {
+class Cpf extends Validator
+{
 
     public function __construct(
-       public string $errorMessage = 'CPF inválido !'
-    ) {}
+        public string $errorMessage = 'CPF inválido !'
+    ) {
+    }
 
     /**
      * @author Rafael Neri
      * @source: https://gist.github.com/rafael-neri/ab3e58803a08cb4def059fce4e3c0e40?permalink_comment_id=3343687#gistcomment-3343687
      */
-    public function validate(mixed $cpf) : bool {
+    public function validate(mixed $cpf): bool
+    {
 
         // Verifica se foi informado todos os digitos corretamente
         if (strlen($cpf) != 11 || preg_match('/(\d)\1{10}/', $cpf)) {
@@ -71,26 +80,26 @@ class Cpf extends Validator {
         }
         return true;
     }
-
 }
 
 
-class Person {
+class Person
+{
 
     public function __construct(
-        #[MaxLength(30,'Max name length is 30!')]
+        #[MaxLength(30, 'Max name length is 30!')]
         public string $name,
         #[Email]
         public string $email,
-         #[Cpf]
+        #[Cpf]
         public string $cpf
-    ) {}
-
+    ) {
+    }
 }
 
 
 // Example of usaage
-$p1 = new Person('sdfghjklpoiuytredfgiookmnugthhhwww', 'asasd@@asdas.com','93204397025');
+$p1 = new Person('sdfghjklpoiuytredfgiookmnugthhhwww', 'asasd@@asdas.com', '93204397025');
 
 //validate
 $reflectionObject = new ReflectionObject($p1);
@@ -103,9 +112,8 @@ foreach ($reflectionObject->getProperties() as $property) {
 
     foreach ($attributes as $attribute) {
         $attributeInstance = $attribute->newInstance();
-        if(!$attributeInstance->validate($value)){
-            echo $attributeInstance->getErrorMessage();
+        if (!$attributeInstance->validate($value)) {
+            echo $attributeInstance->getErrorMessage() . PHP_EOL;
         }
     }
-
 }
