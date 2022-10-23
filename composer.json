@@ -1,0 +1,17 @@
+{
+    "name": "tiojobs/attribute-validators",
+    "description": "The PHP Attribute in practice",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Tiojobs\\AttributeValidators\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tio Jobs",
+            "email": "icarojobsoficial@gmail.com"
+        }
+    ],
+    "require": {}
+}
