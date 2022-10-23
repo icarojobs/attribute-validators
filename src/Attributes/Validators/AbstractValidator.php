@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tiojobs\Validators;
+namespace Tiojobs\Attributes\Validators;
 
 abstract class AbstractValidator
 {
-    protected string $message = 'Error';
+    protected string $message = 'Validation error';
 
     abstract public function validate(mixed $value): bool;
 
