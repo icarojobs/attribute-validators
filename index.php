@@ -4,25 +4,16 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-abstract class Validator
-{
+use Tiojobs\Validators\AbstractValidator;
 
-    protected string $errorMessage = 'Error';
-
-    abstract public function validate(mixed $value): bool;
-    public function getErrorMessage(): string
-    {
-        return $this->errorMessage;
-    }
-}
 
 #[Attribute]
-class MaxLength extends Validator
+class MaxLength extends AbstractValidator
 {
 
     public function __construct(
         public int $maxLength,
-        public string $errorMessage = 'Valor é maior que o tamanho max permitido'
+        public string $message = 'Valor é maior que o tamanho max permitido'
     ) {
     }
 
@@ -33,11 +24,11 @@ class MaxLength extends Validator
 }
 
 #[Attribute]
-class Email extends Validator
+class Email extends AbstractValidator
 {
 
     public function __construct(
-        public string $errorMessage = 'Email inválido !'
+        public string $message = 'Email inválido !'
     ) {
     }
 
@@ -48,11 +39,11 @@ class Email extends Validator
 }
 
 #[Attribute]
-class Cpf extends Validator
+class Cpf extends AbstractValidator
 {
 
     public function __construct(
-        public string $errorMessage = 'CPF inválido !'
+        public string $message = 'CPF inválido !'
     ) {
     }
 
@@ -85,7 +76,6 @@ class Cpf extends Validator
 
 class Person
 {
-
     public function __construct(
         #[MaxLength(30, 'Max name length is 30!')]
         public string $name,
@@ -108,12 +98,12 @@ foreach ($reflectionObject->getProperties() as $property) {
 
     $property->setAccessible(true);
     $value = $property->getValue($p1);
-    $attributes = $property->getAttributes(Validator::class, \ReflectionAttribute::IS_INSTANCEOF);
+    $attributes = $property->getAttributes(AbstractValidator::class, \ReflectionAttribute::IS_INSTANCEOF);
 
     foreach ($attributes as $attribute) {
         $attributeInstance = $attribute->newInstance();
         if (!$attributeInstance->validate($value)) {
-            echo $attributeInstance->getErrorMessage() . PHP_EOL;
+            echo $attributeInstance->getMessage() . PHP_EOL;
         }
     }
 }

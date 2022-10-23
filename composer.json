@@ -4,7 +4,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Tiojobs\\AttributeValidators\\": "src/"
+            "Tiojobs\\": "src/"
         }
     },
     "authors": [
@@ -13,5 +13,8 @@
             "email": "icarojobsoficial@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "phpmd/phpmd": "@stable"
+    }
 }
