@@ -23,5 +23,5 @@ xdebug.connect_timeout_ms=2000
 
   - 4) Press F5 to activate xdebug inside vscode
   - 5) On browser, install xdebug helper and enable it
-  - 6) Add an break point on desire line
+  - 6) Add a break point on desire line
   - 7) Open your browser, put the project URL and enjoy it!
