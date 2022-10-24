@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tiojobs\Domain\Action;
 
 use ReflectionObject;
+use ReflectionAttribute;
 use Tiojobs\Domain\Entities\Person;
 use Tiojobs\Attributes\Validators\AbstractValidator;
 
@@ -20,17 +21,12 @@ class ValidationErrorsVerifier
 
             $property->setAccessible(true);
             $value = $property->getValue($person);
-
-            $attributes = $property->getAttributes(AbstractValidator::class, \ReflectionAttribute::IS_INSTANCEOF);
-
-            // Esse $attributes está vindo null por algum motivo que não sei :-)
+            $attributes = $property->getAttributes(AbstractValidator::class, ReflectionAttribute::IS_INSTANCEOF);
 
             foreach ($attributes as $attribute) {
                 $attributeInstance = $attribute->newInstance();
                 if (!$attributeInstance->validate($value)) {
-                    self::$messages[] += $attributeInstance->getMessage();
-
-                    echo print_r(self::$messages) . PHP_EOL;
+                    self::$messages[] = $attributeInstance->getMessage();
                 }
             }
         }

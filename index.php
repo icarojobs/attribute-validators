@@ -6,8 +6,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Tiojobs\Domain\Entities\Person;
 use Tiojobs\Domain\Action\ValidationErrorsVerifier;
+use Tiojobs\Domain\Presenters\TerminalValidationMessages;
 
-$prince = new Person('William Arthur Philip Louis', 'asasd@asdas.com', '01234567890');
-$errors = ValidationErrorsVerifier::handle($prince);
+$person = new Person('William Arthur Philip Louis', 'asasda@asdas.com', '01234567890');
+$errors = ValidationErrorsVerifier::handle($person);
 
-var_dump($errors);
+TerminalValidationMessages::show($person, $errors);

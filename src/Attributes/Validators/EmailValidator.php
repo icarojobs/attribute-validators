@@ -1,12 +1,12 @@
 <?php
 
-namespace Tiojobs\ValueObjects;
+namespace Tiojobs\Attributes\Validators;
 
 use Attribute;
 use Tiojobs\Attributes\Validators\AbstractValidator;
 
-#[Attribute]
-class Email extends AbstractValidator
+#[Attribute(Attribute::TARGET_PROPERTY)]
+class EmailValidator extends AbstractValidator
 {
     public function __construct(
         public string $message = 'Invalid email!'

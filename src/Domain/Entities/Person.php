@@ -4,19 +4,26 @@ declare(strict_types=1);
 
 namespace Tiojobs\Domain\Entities;
 
-use Tiojobs\ValueObjects\Cpf;
-use Tiojobs\ValueObjects\Email;
-use Tiojobs\Attributes\Validators\MaxLength;
+use Tiojobs\Attributes\Validators\CpfValidator;
+use Tiojobs\Attributes\Validators\EmailValidator;
+use Tiojobs\Attributes\Validators\MaxLengthValidator;
 
 class Person
 {
     public function __construct(
-        #[MaxLength(30, 'The name length is greater than 30!')]
+        #[MaxLengthValidator(30, 'The name length is greater than 30!')]
         public string $name,
-        #[Email]
+
+        #[EmailValidator]
         public string $email,
-        #[Cpf]
+
+        #[CpfValidator]
         public string $cpf
     ) {
+    }
+
+    public function __toString(): string
+    {
+        return self::class;
     }
 }

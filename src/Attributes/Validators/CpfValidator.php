@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tiojobs\ValueObjects;
+namespace Tiojobs\Attributes\Validators;
 
 use Attribute;
 use Tiojobs\Attributes\Validators\AbstractValidator;
 
-#[Attribute]
-class Cpf extends AbstractValidator
+#[Attribute(Attribute::TARGET_PROPERTY)]
+class CpfValidator extends AbstractValidator
 {
     public function __construct(
         public string $message = 'Invalid CPF!'
@@ -17,12 +17,10 @@ class Cpf extends AbstractValidator
 
     public function validate(mixed $cpf): bool
     {
-        // Check if all input digits was inserted correctly
         if (mb_strlen($cpf) != 11 || preg_match('/(\d)\1{10}/', $cpf)) {
             return false;
         }
 
-        // Do the CPF calculus to validate document
         return $this->isValidDocumentCalculus($cpf) === true;
     }
 

@@ -6,8 +6,8 @@ namespace Tiojobs\Attributes\Validators;
 
 use Attribute;
 
-#[Attribute]
-class MaxLength extends AbstractValidator
+#[Attribute(Attribute::TARGET_PROPERTY)]
+class MaxLengthValidator extends AbstractValidator
 {
     public function __construct(
         public int $maxLength,
