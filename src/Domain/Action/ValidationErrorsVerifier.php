@@ -23,14 +23,20 @@ class ValidationErrorsVerifier
             $value = $property->getValue($person);
             $attributes = $property->getAttributes(AbstractValidator::class, ReflectionAttribute::IS_INSTANCEOF);
 
-            foreach ($attributes as $attribute) {
-                $attributeInstance = $attribute->newInstance();
-                if (!$attributeInstance->validate($value)) {
-                    self::$messages[] = $attributeInstance->getMessage();
-                }
-            }
+            self::setupMessages($attributes, $value);
         }
 
         return self::$messages;
+    }
+
+    private static function setupMessages(array $attributes, string $value): void
+    {
+        foreach ($attributes as $attribute) {
+            $attributeInstance = $attribute->newInstance();
+
+            if (!$attributeInstance->validate($value)) {
+                self::$messages[] = $attributeInstance->getMessage();
+            }
+        }
     }
 }
